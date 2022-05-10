@@ -1,0 +1,64 @@
+.leftmenu {
+    float: left;
+    border: 1px solid grey;
+}
+
+.rightmenu {
+    float: left;
+    border: 1px solid gray;
+}
+
+.icerik {
+    height: 700px;
+}
+
+.lbl {
+    margin-left: 15px;
+    margin-top: 3px;
+}
+
+.leftmenu div h3 {
+    margin-top: 30px;
+    font-size: 25px;
+}
+
+.leftbutton {
+    background-color: white;
+    text-align: center;
+    margin-top: 20px;
+    border: 0;
+    border-bottom: 1px solid gray;
+}
+
+.viewbutton {
+    background-color: #007bff;
+    float: right;
+    font-size: 15px;
+    color: #fff;
+    border-radius: 15% ;
+}
+
+.fileform {
+    float: left;
+    width: 200px;
+    margin-top: 20px;
+    margin-left: 20px   ;
+}
+
+.btn-primary {
+    margin-left: 15px;
+    margin-top: 10px;
+}
+
+.form-group {
+    margin-top: 10px;
+    width: auto;
+}
+
+.not-visible {
+    display: none;
+}
+
+.cropper-crop-box, .cropper-view-box {
+    border-radius: 50%;
+}

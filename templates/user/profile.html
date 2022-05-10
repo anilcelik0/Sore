@@ -1,0 +1,252 @@
+{% load static %}
+
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>profile</title>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script src="{% static 'js/profile.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+
+</head>
+
+<body>
+  <!-- Main Container -->
+  <!-- Navigation -->
+
+  <nav class="navbar navbar-expand-md navbar-dark bg-primary" role="navigation">
+    <div class="navbar-brand">
+      <a href="{% url 'flow' %}" class="navbar-brand" style="font-size: 25px; font-weight: bold;">SelfChallange</a>
+    </div>
+
+    {% if user.is_authenticated %}
+    <button type="button" class="navbar-toggler " data-toggle="collapse" data-target="#navbarNavDropdown">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'index2' %}">Friend Challenge</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" href="{% url 'flow2' %}">Self Challenge</a>
+        </li>
+        <li class="nav-item ">
+          <a href="{% url 'flow' %}" class="nav-link ">Challenge</a>
+        </li>
+
+        <li class="nav-item"> <a class="nav-link" href="{% url 'reyting' %}">Reyting</a></li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <img id="pp" style="width: 40px; height: 40px; border-radius: 50%;" src="/pages/image/{{res.pp}}"></a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="{% url 'settings' %}">Settings</a>
+            <a class="dropdown-item" href="{% url 'alogout' %}">logout</a>
+          </div>
+        </li>
+                <li>
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary nav-item mt-1" data-toggle="modal" data-target="#exampleModal">
+            Nasıl kullanılır ?
+          </button>
+        </li>
+
+        <!-- Modal -->
+        <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nasıl kullanılır</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>Sayfamız 2 fotoğrafı karşılaştırmak üzere kullanılmaktadır. Beğendiğiniz fotoğrafa tıklamanız yeterlidir, beğendiğiniz fotoğrafın beğenisi 1 puan artacaktır.</p>
+                <p>Sayfamızda farklı modlar bulunmaktadır, bu modalar Challenge, Self Challenge ve Friend Challenge'dir.</p>
+                <h5>Challenge:</h5>
+                <p>-2 farklı kullanıcının fotoğrafın karşılaştırıldığı sayfadır <br>
+                -Beğendiğiniz fotoğraf ekranda kalır ve karşısına oranla yakın bir fotoğraf gelir <br>
+              -Bir fotoğrafı arka arkaya 5 defa beğenebilirsiniz, kalp tamamlandığında yeni 2 fotoğref ile devam edilecektir</p>
+              <h5>Self Challenge</h5>
+              <p>-Bir kullanıcının belirlediği 2 fotoğrafın karşılaştırıldığı sayfadır <br>
+              -Her beğenme sonrasında başka bir ikili fotoğraf gelir</p>
+              <h5>Friend Challenge</h5>
+              <p>-Bu sayfa için kayıt olmanız gereklidir <br>
+              -Takip ettiğiniz kişilerin ikili fotoğraflarının gösterildiği sayfadır <br>
+            -Self Challenge sayfası ile aynı özelliklere sahiptir</p>
+            <h5>Reyting</h5>
+            <p>-Oranla en çok beğenilen ilk 20 resim gösterilmektedir <br>
+              -Kullanıcı sayısı arttıkça yeni filitrelemeler gelecektr </p>
+            <h5>Genel özellikler</h5>
+            <p>-Fotoğraf yükleyebilmeniz için kayıt olmanız gereklidir <br>
+            -Eğer kullanıcı değilseniz bildir fonksiyonu haricindeki fonksiyonlarını kullanamazsınız <br>
+          -Kaydedilen resimlere profil sayfanızdan ulaşabilirsiniz <br>
+        -Doğrulama, şifre değiştirme ve iletişim için e-posta adresinizi doğru giriniz</p>
+        <h5>Dilek Şikayet ve Öneri için <a href="https://forms.gle/kWGMNQheb6WL5AXs9">tıklayınız</a></h5>
+        <p>iletişim için anilcelik046@gmail.com</p>
+      
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </ul>
+    </div>
+    <form style="float: right;" id="search" action="{% url 'search' %}" method="get" role="search">
+      <div class="input-group">
+        <input type="search" class="form-control mr-sm-10" name="search" required value="{{request.Get.search}}">
+        <span class="input-group-btn">
+          <input class="btn btn-unique btn-rounded btn-xl my-0"
+            style="background-color: white;border-left: 1px solid black;" type="submit" value="Ara">
+        </span>
+      </div>
+    </form>
+  </nav>
+  {% include 'partials/_alert.html' %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12 col-md-4">
+        <div><a href="{% url 'settings' %}">
+          <img class="ppview" style="width: 150px; height: 150px; border-radius: 50%;" src="/pages/image/{{res.pp}}"></a>
+          <h2>{{user}}</h2>
+        </div>
+        <div class="row">
+          <div class="col-2 col-md-2 ml-4">
+            <h5 class="alt-cizgi" style="text-align: center;">Gönderi</h5>
+            <h5 style="text-align: center;">{{fotoslen}}<h5>
+          </div>
+          <div class="col-1 col-xl-2"></div>
+          <div class="col-3 col-md-2 ">
+            <h5 class="alt-cizgi" style="text-align: center;">Takipci</h5>
+            <h5 style="text-align: center;" data-toggle="modal" data-target="#exampleModalLong" id='btntakipci'>
+              {{takipcilen}}
+            </h5>
+          </div>
+          <div class="col-1 col-xl-2"></div>
+          <div class="col-3 col-md-2">
+            <h5 class="alt-cizgi" style="text-align: center;">Takip</h5>
+            <h5 style="text-align: center;" data-toggle="modal" data-target="#exampleModalLong" id="btntakip">
+              {{takiplen}}
+            </h5>
+          </div>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog"
+              aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Takipçiler</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btntakipci">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div id="takipci">
+                      <ul class="list-group">
+                      {%for result,pp in takipci%}  
+                      <li class="list-group-item">
+                      <img src="/pages/image/{{ pp }}" style="width: 50px; height: 50px;border-radius: 50%;float: left; ">
+                      <a href="{% url 'profiles' result.following %}">{{result.following}}</a>
+                    </li>
+                      {%endfor%}
+                    </ul>
+                    </div>
+                    <div id="takip">
+                      <ul class="list-group">
+                      {%for result,pp in takip%}
+                      <li class="list-group-item">
+                      <img src="/pages/image/{{ pp }}" style="width: 50px; height: 50px;border-radius: 50%;float: left; ">
+                      <a href="{% url 'profiles' result.followed %}">{{result.followed}}</a>
+                    </li>
+                      {%endfor%}
+                    </ul>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        </div>
+        <ul class="row list-group list-group-flush">
+          <li class="col-12 list-group-item active"><a class="tip" href="{% url 'profile' %}">Resimlerim</a></li>
+          <li class="col-12 list-group-item"><a class="tip" href="{% url 'upload' %}">Resim Yükle</a></li>
+          <li class="col-12 list-group-item"><a class="tip" href="{% url 'save' %}">Kaydedilenler</a></li>
+        </ul>
+    </div>
+
+      <div class="col-sm-12 col-md-8">
+
+        <div id="tipmenu" class="container-md">
+          <a id="tek" class="tip" href="">Tek</a>
+          <a id="cift" class="tip" href="">Çift</a>        
+          <button style="margin-left: 10px;" type="button" id="editbtn" class="btn btn-info">Düzenle</button>
+        </div>
+        <div id="tekphotos">
+          {%for foto in fotos%}
+          <div class="photo">
+
+            <img class="rounded-circl" src="/pages/image/{{foto.photo_name}}">
+            <h4> {{foto.reyting}} </h4>
+            <div class="edit">
+              <form method="POST" action="{% url 'profile' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="resim" value="{{foto.photo_name}}">
+                <button type="submit" name="delete" class="btn btn-danger">Sil</button>
+              </form>
+            </div>
+          </div>
+          {% endfor%}
+        </div>
+
+        <div id="ciftphotos">
+          <div class="row">
+            {%for foto in fotos2%}
+            <div class="col-12 photobolge">
+              <div class="photo">
+                <img class="rounded-circl" src="/pages/image/{{foto.photo_name1}}">
+                <h4> {{foto.reyting}} </h4>
+              </div>
+              <div class="photo">
+                <img class="rounded-circl" src="/pages/image/{{foto.photo_name2}}">
+                <h4> {{foto.reyting2}} </h4>
+              </div>
+              <div class="edit">
+                <form method="POST" action="{% url 'profile' %}" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <input type="hidden" name="resim1" value="{{foto.photo_name1}}">
+                  <input type="hidden" name="resim2" value="{{foto.photo_name2}}">
+                  <button type="submit" name="delete2" class="btn btn-danger">Sil</button>
+                </form>
+              </div>
+            
+            </div>
+            
+            {% endfor%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {%endif%}
+</body>
+
+</html>

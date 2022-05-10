@@ -1,0 +1,229 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Self Challenge</title>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <script src="{% static 'js/progressbar.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+
+</head>
+
+<body>
+  <!-- Main Container -->
+
+  <nav class="navbar navbar-expand-md navbar-dark bg-primary" role="navigation">
+    <div class="navbar-brand">
+      <a href="{% url 'flow' %}" class="navbar-brand" style="font-size: 25px; font-weight: bold;">SelfChallange</a>
+    </div>
+    <button type="button" class="navbar-toggler " data-toggle="collapse" data-target="#navbarNavDropdown">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="nav navbar-nav ">
+        {%if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'index2' %}">Friend Challenge</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" href="{% url 'flow2' %}">Self Challenge</a>
+        </li>
+        <li class="nav-item ">
+          <a href="{% url 'flow' %}" class="nav-link active">Challenge</a>
+        </li>
+        {% else %}
+        <li class="nav-item ">
+          <a href="{% url 'flow' %}" class="nav-link active">Challenge</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" href="{% url 'flow2' %}">Self Challenge</a>
+        </li>
+        {% endif %}
+
+        <li> <a class="nav-link" href="{% url 'reyting' %}">Reyting</a></li>
+
+        {%if user.is_authenticated %}
+        <li><a class="nav-link" href="{% url 'upload' %}">Resim Yükle</a></li>
+        <li><a class="nav-link active" href="{% url 'profile' %}">
+            <img style="width: 40px; height: 40px; border-radius: 50%;" src="/pages/image/{{res.pp}}"></a>
+        </li>
+        {% else %}
+        <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle active" href="" id="navbarDropdownMenuLink"
+            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Resim Yükle</a>
+          <div class="dropdown-menu" style="width: 300px;" aria-labelledby="navbarDropdownMenuLink">
+              <form class="dropdown-item" action="{% url 'alogin' %}"  method="POST">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="exampleInputusername">Username</label>
+                <input type="text" name="username" class="form-control" id="exampleInputusername"
+                  aria-describedby="emailHelp" required>
+
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" name="password" class="form-control" id="exampleInputPassword1" required>
+              </div>
+
+              <button name="login" type="submit" class="btn btn-primary">Login</button>
+
+            </form>
+            <a class="dropdown-item" href="{% url 'register' %}">Kayıt ol</a>
+          </div>
+        </li>
+ 
+        {% endif %}
+        <li>
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary nav-item mt-1" data-toggle="modal" data-target="#exampleModal">
+            Nasıl kullanılır ?
+          </button>
+        </li>
+
+        <!-- Modal -->
+        <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nasıl kullanılır</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>Sayfamız 2 fotoğrafı karşılaştırmak üzere kullanılmaktadır. Beğendiğiniz fotoğrafa tıklamanız yeterlidir, beğendiğiniz fotoğrafın beğenisi 1 puan artacaktır.</p>
+                <p>Sayfamızda farklı modlar bulunmaktadır, bu modalar Challenge, Self Challenge ve Friend Challenge'dir.</p>
+                <h5>Challenge:</h5>
+                <p>-2 farklı kullanıcının fotoğrafın karşılaştırıldığı sayfadır <br>
+                -Beğendiğiniz fotoğraf ekranda kalır ve karşısına oranla yakın bir fotoğraf gelir <br>
+              -Bir fotoğrafı arka arkaya 5 defa beğenebilirsiniz, kalp tamamlandığında yeni 2 fotoğref ile devam edilecektir</p>
+              <h5>Self Challenge</h5>
+              <p>-Bir kullanıcının belirlediği 2 fotoğrafın karşılaştırıldığı sayfadır <br>
+              -Her beğenme sonrasında başka bir ikili fotoğraf gelir</p>
+              <h5>Friend Challenge</h5>
+              <p>-Bu sayfa için kayıt olmanız gereklidir <br>
+              -Takip ettiğiniz kişilerin ikili fotoğraflarının gösterildiği sayfadır <br>
+            -Self Challenge sayfası ile aynı özelliklere sahiptir</p>
+            <h5>Reyting</h5>
+            <p>-Oranla en çok beğenilen ilk 20 resim gösterilmektedir <br>
+              -Kullanıcı sayısı arttıkça yeni filitrelemeler gelecektr </p>
+            <h5>Genel özellikler</h5>
+            <p>-Fotoğraf yükleyebilmeniz için kayıt olmanız gereklidir <br>
+            -Eğer kullanıcı değilseniz bildir fonksiyonu haricindeki fonksiyonlarını kullanamazsınız <br>
+          -Kaydedilen resimlere profil sayfanızdan ulaşabilirsiniz <br>
+        -Doğrulama, şifre değiştirme ve iletişim için e-posta adresinizi doğru giriniz</p>
+              <h5>Dilek Şikayet ve Öneri için <a href="https://forms.gle/kWGMNQheb6WL5AXs9">tıklayınız</a></h5>
+        <p>iletişim için anilcelik046@gmail.com</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </ul>
+    </div>
+    <form style="float: right;" id="search" action="{% url 'search' %}" method="get" role="search">
+      <div class="input-group">
+        <input type="search" class="form-control mr-sm" name="search" required value="{{request.Get.search}}">
+        <span class="input-group-btn">
+          <input class="btn btn-unique btn-rounded btn-xl my-0"
+            style="background-color: white;border-left: 1px solid black;" type="submit" value="Ara">
+        </span>
+      </div>
+    </form>
+
+  </nav>
+
+  {% include 'partials/_alert.html' %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-1 col-xl-1"></div>
+      <div class="col-xl-4 col-lg-5 col-md-5 col-sm-12 flex-column justify-content-between">
+        <form action="{% url 'flow' %} " method="POST" name="res1" id="res1">
+          <div class="mb-auto p-2 row">
+            <a href="{% url 'profiles' kullanici %}">
+              <h4 class="col-auto">{{kullanici}}</h4>
+            </a>
+            <div class="dropdown drh col-auto">
+              <button class="btn btn-white dropdown-toggle 1" type="button" id="dropdownMenu21"
+                data-bs-toggle="dropdown" aria-expanded="false"></button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu21" id="amenu1">
+                <li><button name="bildir1" type="submit" class="dropdown-item">Bildir</button></li>
+                <li><button name="dnsee1" class="dropdown-item" type="submit">Görmek istemiyorum</button></li>
+                <li><button name="save1" class="dropdown-item" type="submit">Kaydet</button></li>
+              </ul>
+              <script> $('.1').click(function () { $('#amenu1').toggle() }) </script>
+            </div>
+
+          </div>
+          {% csrf_token %}
+          <button type="submit" name='btn1' class="button" id="res1">
+            <img style="height: 500px; width: 375px;" src="/{{fotos}} " class="rounded mx-auto d-block">
+            <input type="hidden" name="resim1" value="{{fotos}}">
+            <input id="a" type="hidden" value="{{a}}" name="a">
+          </button>
+          <h3 class="mt-auto p-2 row align-items-center justify-content-md-center">
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px" viewBox="0 0 100 100">
+
+              <path id="heart-path" fill-opacity="0" stroke-width="10" stroke="#e0411d"
+                d="M81.495,13.923c-11.368-5.261-26.234-0.311-31.489,11.032C44.74,13.612,29.879,8.657,18.511,13.923  C6.402,19.539,0.613,33.883,10.175,50.804c6.792,12.04,18.826,21.111,39.831,37.379c20.993-16.268,33.033-25.344,39.819-37.379  C99.387,33.883,93.598,19.539,81.495,13.923z" />
+            </svg>
+            {{reyting}}
+          </h3>
+        </form>
+      </div>
+      <div class="col-md-1 col-xl-1"></div>
+      <div class="col-xl-4 col-lg-5 col-md-5 col-sm-12 d-flex flex-column justify-content-between">
+        <form action="{% url 'flow' %} " method="POST" name="res2">
+          {% csrf_token %}
+          <div class="mb-auto p-2 row">
+            <a href="{% url 'profiles' kullanici2 %}">
+              <h4 class="col-auto">{{kullanici2}}</h4>
+            </a>
+            <div class="dropdown drh col-auto">
+              <button class="btn btn-white dropdown-toggle 2" type="button" id="dropdownMenu2" data-bs-toggle="dropdown"
+                aria-expanded="false"></button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu2" id="amenu2">
+                <li><button name="bildir2" type="submit" class="dropdown-item">Bildir</button></li>
+                <li><button name="dnsee2" class="dropdown-item" type="submit">Görmek istemiyorum</button></li>
+                <li><button name="save2" class="dropdown-item" type="submit">Kaydet</button></li>
+              </ul>
+              <script> $('.2').click(function () { $('#amenu2').toggle() }) </script>
+            </div>
+
+          </div>
+          <button type="submit" name='btn2' class="button">
+            <img style="height: 500px; width: 375px;" src="/{{fotos2}}" class="rounded mx-auto d-block">
+            <input type="hidden" name="resim2" value="{{fotos2}}">
+            <input type="hidden" value="{{b}}" name="b" id="b">
+          </button>
+          <h3 class="mt-auto p-2 row align-items-center justify-content-md-center">
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px" viewBox="0 0 100 100">
+
+              <path id="heart-path2" fill-opacity="0" stroke-width="10" stroke="#e0411d"
+                d="M81.495,13.923c-11.368-5.261-26.234-0.311-31.489,11.032C44.74,13.612,29.879,8.657,18.511,13.923  C6.402,19.539,0.613,33.883,10.175,50.804c6.792,12.04,18.826,21.111,39.831,37.379c20.993-16.268,33.033-25.344,39.819-37.379  C99.387,33.883,93.598,19.539,81.495,13.923z" />
+            </svg>
+            {{reyting2}}
+          </h3>
+      </div>
+      <div class="col-md-2 col-xl-2"></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="copyright">&copy;2020- <strong>Ürün hakları Saklıdır</strong></div>
+  <script src="{% static 'js/heart-path.js' %}"></script>
+</body>
+
+</html>

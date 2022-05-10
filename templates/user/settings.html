@@ -1,0 +1,175 @@
+{% load static %}
+
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>profile</title>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script src="{% static 'js/setting.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/setting.css' %}">  
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.js"
+  integrity="sha512-oqBsjjSHWqkDx4UKoU+5IUZN2nW2qDp2GFSKw9+mcFm+ZywqfBKp79nfWmGPco2wzTWuE46XpjtCjZ9tFmI12g=="
+  crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.js"
+  integrity="sha512-9pGiHYK23sqK5Zm0oF45sNBAX/JqbZEP7bSDHyt+nT3GddF+VFIcYNqREt0GDpmFVZI3LZ17Zu9nMMc9iktkCw=="
+  crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cropper/1.0.1/jquery-cropper.js"
+  integrity="sha512-7H4tikIFoyAdYD31w/uNYvvAUL6gyunWXLwTQ7ZXkyjD+brw+PfJpLxFkANnbkKnSJzU89YpnF3fJKbpvV+QYg=="
+  crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cropper/1.0.1/jquery-cropper.min.js"
+  integrity="sha512-V8cSoC5qfk40d43a+VhrTEPf8G9dfWlEJgvLSiq2T2BmgGRmZzB8dGe7XAABQrWj3sEfrR5xjYICTY4eJr76QQ=="
+  crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.css"
+  integrity="sha512-949FvIQOibfhLTgmNws4F3DVlYz3FmCRRhJznR22hx76SKkcpZiVV5Kwo0iwK9L6BFuY+6mpdqB2+vDIGVuyHg=="
+  crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.css"
+  integrity="sha512-w+u2vZqMNUVngx+0GVZYM21Qm093kAexjueWOv9e9nIeYJb1iEfiHC7Y+VvmP/tviQyA5IR32mwN/5hTEJx6Ng=="
+  crossorigin="anonymous" />
+
+
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary" role="navigation">
+      <div class="navbar-brand">
+        <a href="{% url 'flow' %}" class="navbar-brand" style="font-size: 25px; font-weight: bold;">SelfChallange</a>
+      </div>
+      {%if user.is_authenticated %}
+    <button type="button" class="navbar-toggler " data-toggle="collapse" data-target="#navbarNavDropdown">
+      <span class="navbar-toggler-icon"></span>
+    </button> 
+      <div class="collapse navbar-collapse" id="navbarNavDropdown"> 
+        <ul class="nav navbar-nav " >
+
+        <li class="nav-item"> 
+            <a class="nav-link" href="{% url 'index2' %}">Friend Challenge</a>
+        </li>
+          <li class="nav-item ">
+                <a class="nav-link" href="{% url 'flow2' %}">Self Challenge</a>
+          </li>
+          <li class="nav-item ">
+              <a href="{% url 'flow' %}" class="nav-link ">Challenge</a>
+            </li>
+          <li> <a class="nav-link" href="{% url 'reyting' %}">Reyting</a></li>
+
+
+          <li><a class="nav-link active" href="{% url 'profile' %}">{{user}}
+              <img style="width: 40px; height: 40px; border-radius: 50%;" src="/pages/image/{{res.pp}}"></a>
+          </li>
+
+        </ul>
+      </div>  
+  </nav>
+
+
+  {% include 'partials/_alert.html' %}
+
+  <div class="container">
+  <div class="row">
+    <div class="col-xl-2"></div>
+    <div class="col-md-4 col-xl-3 leftmenu">
+      <div>
+        <button class="leftbutton" type="button" id="ppbtn">
+          <h5>Profil resmini değiştir</h5>
+        </button>
+      </div>
+      <div>
+        <button class="leftbutton" type="button" id="pedit">
+          <h5>Profilini düzenle</h5>
+        </button>
+      </div>
+      <div>
+        <button class="leftbutton" type="button" id="ppassword">
+          <h5>Şifreyi degiştir</h5>
+        </button>
+      </div>
+
+    </div>
+
+    <div class="col-md-8 col-xl-6 rightmenu" id="rightmenu">
+
+      <div id="icerik1" class="icerik">
+        <form id="form" action="{% url 'settings' %}" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-group">
+            <label class="lbl">name </label>
+            <input type="text" name="name" value="{{user.first_name}}" class="form-control" id="name" required>
+
+          </div>
+          <div class="form-group">
+            <label class="lbl">surname </label>
+            <input type="text" name="surname" value="{{user.last_name}}" class="form-control" id="surname" required>
+
+          </div>
+
+          <div class="form-group">
+            <label class="lbl">Username </label>
+            <input type="text" name="username" value="{{user.username}}" class="form-control" id="username" required>
+
+          </div>
+
+          <div class="form-group">
+            <label class="lbl">Email address</label>
+            <input type="email" name="email" value="{{user.email}}" class="form-control" id="email"
+              aria-describedby="emailHelp">
+          </div>
+
+          <button type="submit" class="btn btn-primary" name="send">Submit</button>
+        </form>
+      </div>
+
+
+
+      <div id="icerik2">
+          <div class="fileform">
+            <div id="image-box">
+              <form id="uploadpp-form" action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+            <img class="pp" style="width: 200px; height: 200px;border-radius: 50%;" src="/pages/image/{{res.pp}}"></div>
+            {{form.as_p}}
+          </form>
+            <button id="ppsend" class="not-visible btn btn-primary" type="button" name="ppsend">Yükle</button> 
+            <div id="cancel-box" class="not-visible">
+              <button id="cancel-btn" class="btn btn-danger">Cancel</button>
+            </div>
+          </div>
+      </div>
+
+
+      <div id="icerik3">
+        <form id="formpsw" action="{% url 'settings' %}" method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <label class="lbl">Old Password</label>
+            <input type="Password" name="oldpassword" id="oldpassword" class="form-control" required="">
+          </div>
+          <div class="form-group">
+            <label class="lbl">New Password</label>
+            <input class="form-control" type="Password" name="password" id="password" required="">
+          </div>
+          <div class="form-group"><label class="lbl">Repassword</label>
+            <input type="Password" name="repassword" id="repassword" class="form-control" required="">
+          </div>
+          <button type="submit" class="btn btn-primary" name="pswsend">Gönder</button>
+        </form>
+      </div>
+
+    </div>
+    <div class="col-xl-1"></div>
+  </div>
+  </div>
+  </div>
+
+  {%endif%}
+    <script src="{% static 'js/uploadpp-image.js' %}"></script>
+
+</body>
+
+</html>
