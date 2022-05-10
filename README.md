@@ -6,6 +6,7 @@ Bu projede aşağıdaki yetenekleri bulabilirsiniz.
 -user işlemleri veri ve user authentication işlemleri
 -kullanıcı profilleri ve profillerin yönetilmesi
 -Birçok user işlemi(Beğenilenler, kaydedilenler vb.)
--Karmaşık veritabanı sorhuları
+-Karmaşık veritabanı sorunları
 -Kullanıcıdan gelen resimleri dinamik şekilde sunucuya depolama
+-Kullanıcının yüklemek istediği resmi crop uygulaması ile ekrana uygun şekilde düzenleme
 -Rest framework ile POST-GET-UPDATE-DELETE işlemleri gerçekleştiren API tasarımı
